@@ -5,12 +5,12 @@ const tourController = require('../controllers/tourControllers') ;
 const router  = express.Router() ;
 
 // it is param middleware which checks validation of user id
-router.param('id' , tourController.checkID) ; 
+//router.param('id' , tourController.checkID) ; 
 
 router 
    .route('/')
    .get(tourController.getAllTours) 
-   .post(tourController.checkBody, tourController.newTour) ; 
+   .post( tourController.newTour) ; 
  
 router 
    .route('/:id')
