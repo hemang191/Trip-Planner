@@ -1,4 +1,7 @@
 const Tour  = require('../models/tourModel') ; 
+const APIFeatures = require('./../utils/apiFeatures') ; 
+
+
 
 // this is common middleware whcih chck validity of array length (applicable for static data)
 /*
@@ -18,22 +21,42 @@ exports.checkID  = (req , res , next , val)=>
     next() ; 
 }*/
 
+// here we add conditions in query for getting the specific results .
+
+exports.aliasTopTours = (req , res , next)=>
+{
+    req.query.limit = '5' ;
+    req.query.sort='-ratingsAverage , price' ;
+    req.query.fields ='name,price,ratingsAverage,summary,difficulty';
+    next();
+}
+
 exports.getAllTours = async (req , res)=>
 {
     try
     {
-        const tours = await Tour.find()
+        const features = new APIFeatures(Tour.find() , req.query)
+        .filter() 
+        .sort()
+        .limit()
+        .paginate()
+        ; 
+        // Execute Query 
+        const tours = await features.query ;
+        
+        // Send response 
         res.status(200).json({
         status :'Success' ,
+        length : tours.length, 
         tours
-        })
+        });
     }
     catch(err)
-    {
+    {    
         res.status(404).json({
             status : 'fail' , 
-            message : err 
-        })
+            message : err      
+        });
     }
     
 };
