@@ -45,7 +45,7 @@ class APIFeatures
         {
             //query = query.sort(req.query.sort) ; -> it is only useful when there is single field .
             const sortBy = this.queryString.sort.split(',').join(' ') ;  
-            query = query.sort(sortBy) ; 
+            this.query = this.query.sort(sortBy) ; 
         }
         else 
         {
