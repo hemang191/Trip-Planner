@@ -171,3 +171,43 @@ exports. deleteTour = async(req , res)=>
     }
     
 };  
+
+// this routes helps us to make group of the routes which share some common properties 
+exports.getTourStats = async(req , res)=>
+{
+    try
+    {
+        const stats = Tour.aggregate(
+            [
+                {
+                    $match : {ratingsAverage : {$gte: 4.1 }}
+                },
+                {
+                    $group : {
+                        _id : null , 
+                        avgRatings:{$avg :'$ratingsAverage'},
+                        avgPrice : {$avg : '$price'},
+                        minPrice : {$min : '$price'},
+                        maxPrice : {$max :'$price'}
+                    }
+                }
+            ]
+        ); 
+        res.status(200).json(
+            {
+                status : 'success' ,
+                data :
+                {
+                    stats
+                }
+            }
+        )
+    }
+    catch(err)
+    {
+        res.status(404).json({
+            status : 'fail' , 
+            message : err      
+        });
+    }
+}
