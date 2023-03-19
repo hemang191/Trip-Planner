@@ -42,7 +42,7 @@ exports.getAllTours = async (req , res)=>
         .paginate()
         ; 
 
-        console.log(features.query) ; 
+        
         // Execute Query 
         const tours = await features.query ;
         
@@ -177,10 +177,10 @@ exports.getTourStats = async(req , res)=>
 {
     try
     {
-        const stats = Tour.aggregate(
+        const stats = await Tour.aggregate(
             [
                 {
-                    $match : {ratingsAverage : {$gte: 4.1 }}
+                    $match : {ratingsAverage : {$gte: 4.5 } }
                 },
                 {
                     $group : {
@@ -209,5 +209,81 @@ exports.getTourStats = async(req , res)=>
             status : 'fail' , 
             message : err      
         });
+    }
+}  
+
+exports.getMonthlyPlan = async (req , res)=>
+{
+    try
+    {
+        const year = req.params.year * 1 ; //2021
+
+        const plan = await Tour.aggregate([
+            {
+                $match : 
+                {
+                    startDates: {
+                        $gte : new Date(`${year}-01-01`),
+                        $lte : new Date(`${year}-12-31`)
+                    }
+                }
+            },
+            {
+                $project: {
+                    startDates: 1,
+                    name: 1 // Add any other fields you want to include in the output
+                }
+            },
+            {
+                $unwind : '$startDates' // it will make various objects which starts from same date.
+            },
+            {
+                $group :
+                {
+                    _id : {$month : '$startDates'},
+                    numTourStats : {$sum : 1},
+                    tours : {$push : '$name'}
+                }        
+            },
+            {
+                $addFields: {month :'$_id'}
+            }
+            ,
+            {
+                $project :
+                {
+                    _id : 0 
+                }
+            },
+            {
+                $sort :
+                {
+                    numTourStarts : -1 
+                }
+            }
+        ]) ; 
+
+
+        res.status(200).json(
+            {
+                status : 'success' , 
+                data: 
+                {
+                    plan 
+                }
+            }
+        )
+
+    }
+    catch(err)
+    {
+
+        res.status(404).json(
+            {
+                status :'fail' ,
+                message : err 
+            }
+        )
+
     }
 }
