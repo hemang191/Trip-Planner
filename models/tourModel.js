@@ -1,4 +1,6 @@
 const mongoose = require('mongoose') ;
+const slugify = require('slugify') ;
+
 
 const tourSchema = new mongoose.Schema({
     name : {
@@ -7,11 +9,13 @@ const tourSchema = new mongoose.Schema({
         unique : true  ,
         trim : true 
     },
+    slug : String ,
+
     duration : 
     {
         type : Number ,
         required : [true , 'A tour must have duration'] 
-    },
+    }, 
     maxGroupSize:
     {
         type : Number , 
@@ -62,11 +66,38 @@ const tourSchema = new mongoose.Schema({
     startDates: [Date] // different instances at which tour starts 
 });
    
+// those fields which don't save in our database 
 
 tourSchema.virtual('durationWeeks').get(function()
 {
     return this.duration / 7 ;
 })
+
+/*
+// Document middleware run for save and create not on insert many 
+
+
+// pre save hook 
+tourSchema.pre('save' , function(next)
+{
+    console.log(this) ; // this is current object
+
+    this.slug = slugify(this.name , {lower : true}) ;
+    next();
+})
+
+
+// post save hook 
+tourSchema.post('save' , function(doc, next)
+{
+    console.log(doc) ; // last saved document
+
+    next() ; 
+
+})
+
+*/
+
 const Tour = mongoose.model('Tour' , tourSchema) ; 
 
 module.exports = Tour ; 
