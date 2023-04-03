@@ -1,5 +1,5 @@
-const mongoose = require('mongoose') ; 
-const dotenv = require('dotenv');
+const mongoose = require('mongoose') ;
+const dotenv = require('dotenv'); 
 dotenv.config({path : './config.env'}) ;
 
 const app = require('./app') ; 
@@ -22,4 +22,6 @@ app.listen(PORT , ()=>
 {
     console.log("App is running on PORT no " , PORT) ; 
 })    
-   
+ 
+
+// test
