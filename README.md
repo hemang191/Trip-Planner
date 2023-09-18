@@ -1,8 +1,9 @@
-# Natours Application
+# Trip Planner
 
-This full stack web application is specially designed for persons who love travelling and going on tour vacations.
+This full-stack web application is designed by using MVC architecture for persons who love traveling and going on tour vacations.
 
-This app can be found at [https://natours-nachiketa.herokuapp.com/](https://natours-nachiketa.herokuapp.com/).
+<!--This app can be found at [https://natours-nachiketa.herokuapp.com/](https://natours-nachiketa.herokuapp.com/).-->
+
 The documentation of the API for this app can be found at [https://documenter.getpostman.com/view/13036021/TWDfEZ3P](https://documenter.getpostman.com/view/13036021/TWDfEZ3P)
 The API and the app itself are hosted on the same server.
 
@@ -18,9 +19,7 @@ Once signed up or logged in, they can then book any tour of their choice.
 
 Users can write only one review for any tour they book.
 
-## Purpose
-
-This app is a pet project, built for the express purpose of honing my skills in full stack web development.
+.
 
 ## Demonstration
 
@@ -50,6 +49,7 @@ This app is a pet project, built for the express purpose of honing my skills in 
 
 ## Main Tools And Technologies Used
 
+<!--
 - HTML (Create the structure and content of the web pages).
 - CSS (Styling of the web pages).
 - PUG (Template engine for generating the web pages dynamically).
@@ -64,6 +64,10 @@ This app is a pet project, built for the express purpose of honing my skills in 
 - NODEMAILER (Sending emails to users of the app)
 - MAILTRAP (Trapping the emails we send in our development environment, so they don't actually get sent to the user's email address)
 - SENDGRID (Sending actual emails to the users in production).
+--->
+1. Front - End  → HTML , CSS , JS , PUG(dynamic loading) 
+2. Backend → NodeJS , ExpressJS , MongoDB 
+3. Tools: Mapbox, Stripe , NodeMailer, MailTrap
 
 ## Setting Up Your Local Environment
 
